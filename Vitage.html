@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AGENCIA × VINTAGE — Propuesta de Sociedad · Plan 30 días</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0e0f1a; --panel:#14162a; --ink:#f4f6ff; --muted:#a8afd6;
+    --pink:#ff00a0; --cyan:#00f5ff; --lime:#adff2f; --violet:#9400d3; --amber:#ffc72c;
+    --stroke:rgba(255,255,255,.08);
+  }
+  *{box-sizing:border-box}
+  html,body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 10% -10%,rgba(148,0,211,.25),transparent 60%),
+      radial-gradient(1000px 700px at 90% 0,rgba(0,245,255,.18),transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:Manrope,system-ui,Segoe UI,Roboto,Arial,sans-serif
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1200px;margin:auto;padding:22px}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(20,22,42,.7);backdrop-filter:blur(8px);border-bottom:1px solid var(--stroke)}
+  .nav .wrap{display:flex;gap:10px;align-items:center; justify-content: space-between;}
+  .logo{font-weight:900;letter-spacing:.4px}
+  .nav-links { display: flex; align-items: center; gap: 8px; }
+  .btn{padding:10px 10px;border-radius:12px;background:#1a1d36;border:1px solid var(--stroke)}
+  .cta{padding:12px 14px;border-radius:14px;border:none;cursor:pointer;
+       background:linear-gradient(90deg,var(--pink),var(--cyan));color:#071018;font-weight:900}
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;padding:28px 0}
+  .hero-text { padding-right: 2rem; }
+  
+  .headline{font-size:clamp(28px,4.2vw,58px);line-height:1.03;font-weight:900;letter-spacing:-.4px}
+  .sub{color:var(--muted)}
+  .hero-img{border-radius:18px;overflow:hidden;border:1px solid var(--stroke)}
+  .hero-img img{width:100%;height:100%;object-fit:cover;filter:saturate(1.18) contrast(1.06)}
+  /* CARDS / GRID */
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--stroke);border-radius:18px;padding:18px}
+  .grid{display:grid;gap:14px}
+  .g-2{grid-template-columns:repeat(2,1fr)}
+  .g-3{grid-template-columns:repeat(3,1fr)}
+  .g-4{grid-template-columns:repeat(4,1fr)}
+  
+  .neon{display:inline-block;padding:.18em .55em;border-radius:12px;background:#0f1230;
+        box-shadow:0 0 12px rgba(255,0,160,.35),inset 0 0 14px rgba(0,245,255,.2);border:1px solid var(--stroke)}
+  .neon.pink{color:var(--pink);text-shadow:0 0 10px rgba(255,0,160,.8)}
+  .neon.cyan{color:var(--cyan);text-shadow:0 0 10px rgba(0,245,255,.9)}
+  .neon.lime{color:var(--lime);text-shadow:0 0 10px rgba(173,255,47,.8)}
+  .pill{padding:8px 10px;border-radius:999px;background:#141b35;border:1px solid var(--stroke);font-size:13px;color:var(--muted)}
+  .mural{font-weight:900;font-size:clamp(20px,2.2vw,32px)}
+  .foot{text-align:center;color:var(--muted);padding:28px 0 48px}
+  /* SECTION TITLES */
+  h2{margin:.2em 0;font-size:clamp(22px,2.5vw,34px)}
+  h3{margin:.2em 0}
+  /* ANIM */
+  [data-anim]{opacity:0;transform:translateY(8px);transition:all .45s ease}
+  [data-anim].show{opacity:1;transform:none}
+  /* TIMELINE */
+  .timeline{display:grid;gap:12px}
+  .tl{border-left:2px solid rgba(255,255,255,.14);padding:8px 0 8px 12px}
+  .ok{color:#59f3a9;font-weight:800}
+  .warn{color:var(--amber);font-weight:800}
+  /* WALL GLOW */
+  .wall{background:
+    radial-gradient(800px 300px at 20% 10%,rgba(255,0,160,.18),transparent 60%),
+    radial-gradient(700px 280px at 85% 20%,rgba(0,245,255,.16),transparent 60%),
+    linear-gradient(180deg,rgba(255,255,255,.02),transparent 30%);}
+
+  /* Responsive Nav */
+  .nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+  .hamburger {
+    display: block;
+    position: relative;
+    width: 24px;
+    height: 2px;
+    background: var(--ink);
+    transition: all 0.2s ease-in-out;
+  }
+  .hamburger::before,
+  .hamburger::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--ink);
+    transition: all 0.2s ease-in-out;
+  }
+  .hamburger::before {
+    top: -8px;
+  }
+  .hamburger::after {
+    bottom: -8px;
+  }
+  .nav-open .hamburger {
+    background: transparent;
+  }
+  .nav-open .hamburger::before {
+    transform: rotate(45deg) translate(5px, 6px);
+  }
+  .nav-open .hamburger::after {
+    transform: rotate(-45deg) translate(5px, -6px);
+  }
+
+  @media(max-width: 1100px) {
+    .nav .logo img {
+      height: 64px !important;
+    }
+    .nav-toggle {
+      display: block;
+      z-index: 100;
+    }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--panel);
+      flex-direction: column;
+      padding: 80px 20px 20px;
+      border-bottom: 1px solid var(--stroke);
+    }
+    .nav-links.show {
+      display: flex;
+    }
+    .nav-links .btn, .nav-links .cta {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .hero{grid-template-columns:1fr}
+    .hero-text { padding-right: 0; }
+    .g-4{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width: 780px){
+    .g-2,.g-3,.g-4{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <div class="logo">
+      <img src="Logotipo-AGENCIA-blanco.svg" alt="Logo de AGENCIA" style="height: 96px;">
+    </div>
+    <button class="nav-toggle" aria-label="Abrir menú">
+      <span class="hamburger"></span>
+    </button>
+    <div class="nav-links">
+        <a class="btn" href="#resumen">Resumen</a>
+        <a class="btn" href="#contexto">Contexto</a>
+        <a class="btn" href="#valor">Propuesta de valor</a>
+        <a class="btn" href="#plan">Plan 30 días</a>
+        <a class="btn" href="#aportes">Aportes</a>
+        <a class="btn" href="#plataforma">Plataforma 360</a>
+        <a class="btn" href="#kpis">KPIs</a>
+        <a class="btn" href="#gob">Gobernanza</a>
+    </div>
+  </div>
+</header>
+
+<section class="wrap hero" id="resumen">
+  <div class="hero-text">
+    <div class="neon cyan">Del caos al orden</div>
+    <h1 class="headline" data-anim>De cafetería a <span class="neon pink">ícono de la USBI.</span></h1>
+    <p class="sub" data-anim>Sociedad operativa: creatividad, sistema y ejecución para que VINTAGE sea el punto de encuentro estudiantil. Gestión integral con <span class="neon lime">Plataforma 360</span>.</p>
+    <div style="display:flex;gap:10px;margin-top:8px" data-anim>
+      <a class="cta" href="#valor">Ver propuesta</a>
+      <a class="btn" href="#plan">Plan 30 días</a>
+    </div>
+  </div>
+  <div class="hero-img wall" data-anim>
+    <img src="Vintage.png" alt="Logo de VINTAGE" style="width:100%; height:100%; object-fit:contain;">
+  </div>
+</section>
+
+<section class="wrap" id="contexto">
+  <h2 data-anim>Contexto y oportunidad</h2>
+  <div class="grid g-3" style="margin-top:10px">
+    <div class="card" data-anim>
+      <h3>Ubicación privilegiada</h3>
+      <p class="sub">Entrada de la USBI. Flujo constante matutino y vespertino.</p>
+    </div>
+    <div class="card" data-anim>
+      <h3>Brecha de mercado</h3>
+      <p class="sub">Falta un spot aspiracional, instagrameable y gestionado con data.</p>
+    </div>
+    <div class="card" data-anim>
+      <h3>Potencial inmediato</h3>
+      <p class="sub">Clientela cautiva + propuesta diferencial = tracción rápida.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="valor">
+  <h2 data-anim>Propuesta de valor</h2>
+  <div class="grid g-2" style="margin-top:10px">
+    <div class="card" data-anim>
+      <h3>Factor WOW / Hooks</h3>
+      <ul class="sub">
+        <li><strong>Visual:</strong> mural neón con <span class="neon cyan">#NosVemosEnVintage</span>.</li>
+        <li><strong>Funcional:</strong> refill académico con credencial.</li>
+        <li><strong>Vivencial:</strong> combos por horario (AM/PM/Noche de examen).</li>
+      </ul>
+    </div>
+    <div class="card" data-anim>
+      <h3>Operación blindada</h3>
+      <p class="sub">Plataforma 360 para ventas, inventario, finanzas, RR.HH., marketing y fidelización. Datos diarios, decisiones claras.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="plan">
+  <h2 data-anim>Plan de 30 días</h2>
+  <div class="grid g-2 timeline" style="margin-top:10px">
+    <div class="card tl" data-anim>
+      <h3>Semana 1 · Fundaciones</h3>
+      <ul class="sub">
+        <li>Auditoría express de ventas, costos e inventarios.</li>
+        <li>Rediseño visual rápido: murales, colores y señalética.</li>
+        <li>Ajuste de menú y pricing inicial.</li>
+      </ul>
+    </div>
+    <div class="card tl" data-anim>
+      <h3>Semana 2 · Go-to-Market</h3>
+      <ul class="sub">
+        <li>Instalación de murales y decoración neón.</li>
+        <li><strong class="ok">Remodelación de mobiliario</strong> (sillas fluorescentes, mesas modernas, spots foto).</li>
+        <li>Activación de <strong>Plataforma 360</strong> (POS, inventario, finanzas).</li>
+      </ul>
+    </div>
+    <div class="card tl" data-anim>
+      <h3>Semana 3 · Tracción</h3>
+      <ul class="sub">
+        <li>Brigadas en la USBI y creators locales.</li>
+        <li>Lanzamiento del refill académico.</li>
+        <li>Optimización de contenidos y microactivaciones.</li>
+      </ul>
+    </div>
+    <div class="card tl" data-anim>
+      <h3>Semana 4 · Optimización</h3>
+      <ul class="sub">
+        <li>Revisión de Indicadores Clave: ventas, ticket promedio, Nivel de Satisfacción y merma.</li>
+        <li>Ajuste de combos y precios por elasticidad.</li>
+        <li>Informe ejecutivo y backlog de 60 días.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="aportes">
+  <h2 data-anim>Aportes de cada parte</h2>
+  <div class="grid g-2" style="margin-top:10px">
+    <div class="card" data-anim>
+      <h3>AGENCIA</h3>
+      <ul class="sub">
+        <li>Branding, marketing y diseño de experiencia neón.</li>
+        <li>Implementación y operación de <strong>Plataforma 360</strong>.</li>
+        <li><strong>Personal de planta</strong> para ejecución impecable.</li>
+        <li><strong>Administración general compartida</strong> con los socios.</li>
+        <li>Data & IA para forecast, pricing y NPS.</li>
+      </ul>
+    </div>
+    <div class="card" data-anim>
+      <h3>VINTAGE</h3>
+      <ul class="sub">
+        <li>Local, permisos y operación de barra/cocina.</li>
+        <li>Personal base y cumplimiento de manuales.</li>
+        <li>Transparencia financiera e inventarios.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="plataforma">
+  <h2 data-anim>Plataforma 360 — El Cerebro de tu Cafetería</h2>
+  <p class="sub" data-anim>Tu socio no tiene que ser un experto en tecnología. Nosotros instalamos y operamos un sistema integral que maneja todo, dándoles a ustedes la información clave para tomar decisiones inteligentes. Es como tener un administrador perfecto trabajando 24/7.</p>
+  <div class="grid g-4" style="margin-top:10px">
+    <div class="card" data-anim><strong>Ventas (POS y QR)</strong><p class="sub">Un sistema de cobro rápido y moderno. Los clientes pueden ordenar desde su mesa con su celular (QR) o en el mostrador. Acepta pagos divididos, propinas y crea combos fácilmente. El sistema también permitirá hacer pedidos remotos para entregar a los estudiantes en su salón o donde lo pidan dentro del campus.</p></div>
+    <div class="card" data-anim><strong>Control de Inventario</strong><p class="sub">Sabemos exactamente qué se vende y qué no. El sistema nos avisa cuándo comprar más insumos, calcula el costo exacto de cada café y bebida para maximizar ganancias y minimiza el desperdicio.</p></div>
+    <div class="card" data-anim><strong>Administración y Finanzas</strong><p class="sub">Toda la información financiera en un solo lugar. Facturación, control de gastos, pagos a proveedores y reportes de ganancias diarias. Transparencia total.</p></div>
+    <div class="card" data-anim><strong>Clientes y Lealtad (CRM)</strong><p class="sub">Creamos un programa de lealtad para que los estudiantes vuelvan. Acumulan puntos, reciben cupones y nos comunicamos con ellos para anunciar promociones. Convertimos clientes de una vez en fans de la marca.</p></div>
+    <div class="card" data-anim><strong>Equipo y Personal (RR.HH.)</strong><p class="sub">Gestionamos horarios, roles y desempeño del personal. Incluimos una academia digital con videos cortos para capacitar a cada nuevo barista, asegurando siempre la misma calidad en el servicio.</p></div>
+    <div class="card" data-anim><strong>Marketing Digital</strong><p class="sub">Planeamos y ejecutamos las campañas en redes sociales. Medimos qué anuncios funcionan mejor y nos aseguramos de que VINTAGE siempre esté en la mente de los estudiantes.</p></div>
+    <div class="card" data-anim><strong>Reservas y Eventos</strong><p class="sub">Si se quiere usar el espacio para eventos pequeños o reuniones estudiantiles, el sistema lo gestiona de forma sencilla.</p></div>
+    <div class="card" data-anim><strong>Tienda en Línea (Ecommerce)</strong><p class="sub">Los clientes podrán comprar café para llevar, mercancía o tarjetas de regalo desde una página web sencilla, abriendo otra fuente de ingresos.</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="kpis">
+  <h2 data-anim>Indicadores Clave de Éxito (Día 30)</h2>
+  <div class="grid g-4" style="margin-top:10px">
+    <div class="card" data-anim><div class="pill">Ticket promedio</div><h3 class="mural" data-kpi="90">$90 MXN</h3></div>
+    <div class="card" data-anim><div class="pill">Tickets/día</div><h3 class="mural" data-kpi="180">180</h3></div>
+    <div class="card" data-anim><div class="pill">Nivel de Satisfacción del Cliente</div><h3 class="mural" data-kpi="4.6">≥ 4.6</h3></div>
+    <div class="card" data-anim><div class="pill">Reducción de Desperdicio</div><h3 class="mural" data-kpi="3">≤ 3%</h3></div>
+  </div>
+  <p class="sub" style="margin-top:6px">Corte diario en dashboard compartido. Comité quincenal.</p>
+</section>
+
+<section class="wrap" id="gob">
+  <h2 data-anim>Nuestra Alianza: Cuentas Claras, Crecimiento Conjunto</h2>
+  <div class="grid g-3" style="margin-top:10px">
+    <div class="card" data-anim>
+      <h3>Éxito Compartido</h3>
+      <p class="sub">Somos un solo equipo con una misma meta. Por eso, el éxito se comparte. Cada logro y cada ganancia es un reflejo de nuestra alianza y nuestro trabajo conjunto. Crecemos juntos, ganamos juntos.</p>
+    </div>
+    <div class="card" data-anim>
+      <h3>Decisiones Ágiles, Cero Burocracia</h3>
+      <p class="sub">Tomaremos las decisiones estratégicas en un comité 1 a 1, donde ambas voces tienen el mismo peso. Nos reuniremos quincenalmente para revisar resultados y definir los siguientes pasos. Rápido, simple y sin fricción.</p>
+    </div>
+    <div class="card" data-anim>
+      <h3>Confianza y Transparencia Total</h3>
+      <p class="sub">Nuestra alianza se basa en la confianza. Por eso, toda la información clave del negocio —desde las ventas diarias hasta los costos— estará disponible para ambos en un dashboard compartido y actualizado en tiempo real. Transparencia total para tomar siempre las mejores decisiones, juntos.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap wall" id="cierre">
+  <div class="card" data-anim>
+    <h2>VINTAGE: El punto de encuentro.</h2>
+    <p class="sub">No es una opción más. Es la única fórmula que asegura que VINTAGE pase de sobrevivir a liderar la USBI: imagen potente, experiencia memorable y administración impecable.</p>
+    <p class="sub" style="font-weight: 800; font-size: 1.2em;">Nos vemos en VINTAGE.</p>
+    
+  </div>
+</section>
+
+<footer class="foot">© <span id="y"></span> AGENCIA × VINTAGE · Propuesta de Sociedad</footer>
+
+<script>
+  // Animación de entrada
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')}),{threshold:.12});
+  document.querySelectorAll('[data-anim]').forEach(n=>io.observe(n));
+  // Año
+  document.getElementById('y').textContent=new Date().getFullYear();
+
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  navToggle.addEventListener('click', () => {
+    document.body.classList.toggle('nav-open');
+    navLinks.classList.toggle('show');
+  });
+</script>
+</body>
+</html>
